@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle LED</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { font-size: 20px; padding: 10px 20px; margin: 10px; cursor: pointer; }
+        .on { background-color: green; color: white; }
+        .off { background-color: red; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Contrôle de la LED</h1>
+    <button class="on" onclick="sendCommand('ON')">Allumer</button>
+    <button class="off" onclick="sendCommand('OFF')">Éteindre</button>
+
+    <script>
+        function sendCommand(command) {
+            fetch(`http://192.168.1.38/${command}`)
+            .then(response => console.log("Commande envoyée:", command))
+            .catch(error => console.error("Erreur:", error));
+        }
+    </script>
+</body>
+</html>
