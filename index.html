@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle LED avec WebSockets</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { font-size: 20px; padding: 10px 20px; margin: 10px; cursor: pointer; }
+        .on { background-color: blue; color: white; }
+        .off { background-color: red; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Contrôle de la LED (WebSockets)</h1>
+    <button class="on" onclick="sendCommand('ON')">Allumer</button>
+    <button class="off" onclick="sendCommand('OFF')">Éteindre</button>
+    <p>État de la LED : <span id="ledState">...</span></p>
+
+    <script>
+        let ws = new WebSocket("ws://192.168.1.38:81");
+
+        ws.onopen = function() {
+            console.log("Connecté au serveur WebSocket");
+        };
+
+        ws.onmessage = function(event) {
+            document.getElementById("ledState").innerText = event.data;
+        };
+
+        ws.onerror = function(error) {
+            console.error("Erreur WebSocket:", error);
+        };
+
+        function sendCommand(command) {
+            ws.send(command);
+        }
+    </script>
+</body>
+</html>
